@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 	"github.com/jonafll/go-fiber-insurance-api/config"
+	"github.com/jonafll/go-fiber-insurance-api/middleware"
 	"github.com/jonafll/go-fiber-insurance-api/routes"
 
 	_ "github.com/jonafll/go-fiber-insurance-api/docs"
@@ -25,6 +26,8 @@ func main() {
 
 	config := config.New()
 	app := fiber.New(config)
+
+	middleware.Fiber(app)
 
 	routes.Swagger(app)
 	routes.Tariff(app)
