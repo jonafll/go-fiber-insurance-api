@@ -10,7 +10,7 @@ test:
 build: clean test
 	CGO_ENABLED=0 go build -ldflags="-w -s" -o $(BUILD_DIR)/$(APP_NAME) main.go
 
-run:
+run: swag
 	go run main.go
 
 docker.build:
@@ -24,3 +24,6 @@ docker.run: docker.build
 
 docker.stop:
 	docker stop insurance-api
+
+swag:
+	swag init

@@ -1,0 +1,34 @@
+basePath: /api/v1
+info:
+  contact: {}
+  description: Car Insurance API with Go and Fiber.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Car Insurance API
+  version: "1.0"
+paths:
+  /tariff:
+    post:
+      consumes:
+      - application/json
+      description: Start tariffing.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: bad request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Start tariffing
+      tags:
+      - Tariffing
+swagger: "2.0"
