@@ -1,4 +1,105 @@
 basePath: /api/v1
+definitions:
+  model.Address:
+    properties:
+      city:
+        type: string
+      country:
+        type: string
+      postalCode:
+        type: integer
+      street:
+        type: string
+    required:
+    - city
+    - country
+    - postalCode
+    - street
+    type: object
+  model.Person:
+    properties:
+      address:
+        $ref: '#/definitions/model.Address'
+      dateOfBirth:
+        type: string
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      phone:
+        type: string
+    required:
+    - address
+    - dateOfBirth
+    - email
+    - firstName
+    - lastName
+    type: object
+  model.Tariff:
+    properties:
+      coverage:
+        enum:
+        - liability
+        - comprehensive
+        - partial
+        type: string
+      insuranceStart:
+        type: string
+      person:
+        $ref: '#/definitions/model.Person'
+      vehicle:
+        $ref: '#/definitions/model.Vehicle'
+    required:
+    - coverage
+    - insuranceStart
+    - person
+    - vehicle
+    type: object
+  model.TariffAmount:
+    properties:
+      comprehensive:
+        type: number
+      currency:
+        type: string
+      liability:
+        type: number
+      partial:
+        type: number
+      total:
+        type: number
+    required:
+    - currency
+    type: object
+  model.Vehicle:
+    properties:
+      id:
+        type: integer
+      manufacturer:
+        type: string
+      model:
+        type: string
+      performance:
+        maximum: 999
+        type: integer
+      vin:
+        maxLength: 17
+        minLength: 17
+        type: string
+    required:
+    - id
+    - manufacturer
+    - model
+    - vin
+    type: object
+  utils.httpError:
+    properties:
+      code:
+        type: integer
+      error:
+        type: string
+    type: object
 info:
   contact: {}
   description: Car Insurance API with Go and Fiber.
@@ -13,21 +114,28 @@ paths:
       consumes:
       - application/json
       description: Start tariffing.
+      parameters:
+      - description: Tariff
+        in: body
+        name: tariff
+        required: true
+        schema:
+          $ref: '#/definitions/model.Tariff'
       produces:
       - application/json
       responses:
         "200":
-          description: ok
+          description: OK
           schema:
-            type: string
+            $ref: '#/definitions/model.TariffAmount'
         "400":
-          description: bad request
+          description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/utils.httpError'
         "500":
-          description: internal server error
+          description: Internal Server Error
           schema:
-            type: string
+            $ref: '#/definitions/utils.httpError'
       summary: Start tariffing
       tags:
       - Tariffing

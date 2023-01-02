@@ -33,25 +33,182 @@ const docTemplate = `{
                     "Tariffing"
                 ],
                 "summary": "Start tariffing",
+                "parameters": [
+                    {
+                        "description": "Tariff",
+                        "name": "tariff",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Tariff"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "ok",
+                        "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/model.TariffAmount"
                         }
                     },
                     "400": {
-                        "description": "bad request",
+                        "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/utils.httpError"
                         }
                     },
                     "500": {
-                        "description": "internal server error",
+                        "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/utils.httpError"
                         }
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.Address": {
+            "type": "object",
+            "required": [
+                "city",
+                "country",
+                "postalCode",
+                "street"
+            ],
+            "properties": {
+                "city": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "postalCode": {
+                    "type": "integer"
+                },
+                "street": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Person": {
+            "type": "object",
+            "required": [
+                "address",
+                "dateOfBirth",
+                "email",
+                "firstName",
+                "lastName"
+            ],
+            "properties": {
+                "address": {
+                    "$ref": "#/definitions/model.Address"
+                },
+                "dateOfBirth": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Tariff": {
+            "type": "object",
+            "required": [
+                "coverage",
+                "insuranceStart",
+                "person",
+                "vehicle"
+            ],
+            "properties": {
+                "coverage": {
+                    "type": "string",
+                    "enum": [
+                        "liability",
+                        "comprehensive",
+                        "partial"
+                    ]
+                },
+                "insuranceStart": {
+                    "type": "string"
+                },
+                "person": {
+                    "$ref": "#/definitions/model.Person"
+                },
+                "vehicle": {
+                    "$ref": "#/definitions/model.Vehicle"
+                }
+            }
+        },
+        "model.TariffAmount": {
+            "type": "object",
+            "required": [
+                "currency"
+            ],
+            "properties": {
+                "comprehensive": {
+                    "type": "number"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "liability": {
+                    "type": "number"
+                },
+                "partial": {
+                    "type": "number"
+                },
+                "total": {
+                    "type": "number"
+                }
+            }
+        },
+        "model.Vehicle": {
+            "type": "object",
+            "required": [
+                "id",
+                "manufacturer",
+                "model",
+                "vin"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "manufacturer": {
+                    "type": "string"
+                },
+                "model": {
+                    "type": "string"
+                },
+                "performance": {
+                    "type": "integer",
+                    "maximum": 999
+                },
+                "vin": {
+                    "type": "string",
+                    "maxLength": 17,
+                    "minLength": 17
+                }
+            }
+        },
+        "utils.httpError": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "error": {
+                    "type": "string"
                 }
             }
         }
