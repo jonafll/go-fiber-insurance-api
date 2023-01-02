@@ -139,4 +139,69 @@ paths:
       summary: Start tariffing
       tags:
       - Tariffing
+  /vehicles:
+    get:
+      description: Search vehicle.
+      parameters:
+      - description: Manufacturer
+        in: query
+        name: manufacturer
+        required: true
+        type: string
+      - description: Model
+        in: query
+        name: model
+        required: true
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Vehicle'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.httpError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: Search vehicle
+      tags:
+      - Vehicle
+  /vehicles/{id}:
+    get:
+      description: Search vehicle with id.
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Vehicle'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.httpError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: Search vehicle with id
+      tags:
+      - Vehicle
 swagger: "2.0"

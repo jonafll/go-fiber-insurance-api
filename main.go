@@ -33,6 +33,7 @@ func main() {
 
 	routes.Swagger(app)
 	routes.Tariff(app)
+	routes.Vehicle(app)
 
 	go func() {
 		if err := app.Listen(os.Getenv("SERVER_URL")); err != nil {
