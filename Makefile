@@ -13,6 +13,9 @@ build: clean test
 run: swag
 	go run main.go
 
+air: swag
+	air
+
 docker.build:
 	docker build -t insurance-api .
 
