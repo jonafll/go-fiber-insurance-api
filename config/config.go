@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/jonafll/go-fiber-insurance-api/utils"
 )
 
 func New() fiber.Config {
@@ -20,5 +21,6 @@ func New() fiber.Config {
 		AppName:        fmt.Sprintf("%s v%s", appName, appVersion),
 		RequestMethods: serverAllowedMethods,
 		ReadTimeout:    time.Second * time.Duration(serverReadTimeout),
+		ErrorHandler:   utils.ErrorHandler,
 	}
 }
