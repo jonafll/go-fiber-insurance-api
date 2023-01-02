@@ -3,6 +3,8 @@ package main
 import (
 	"log"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
@@ -32,7 +34,20 @@ func main() {
 	routes.Swagger(app)
 	routes.Tariff(app)
 
-	if err := app.Listen(os.Getenv("SERVER_URL")); err != nil {
-		log.Fatalln("Failed to start server", err)
-	}
+	go func() {
+		if err := app.Listen(os.Getenv("SERVER_URL")); err != nil {
+			log.Fatalln("Failed to start server", err)
+		}
+	}()
+
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+
+	_ = <-c
+	log.Println("Gracefully shutting down...")
+	_ = app.Shutdown()
+
+	log.Println("Running cleanup tasks...")
+	// Your cleanup tasks go here
+	log.Println("Fiber was successful shutdown.")
 }
