@@ -21,7 +21,7 @@ func GetVehicles(c *fiber.Ctx) error {
 	utils.SimulateRestCall()
 
 	// Dummy for now
-	vehicles := []model.Vehicle{
+	vehicles := &[]model.Vehicle{
 		{
 			Id:           1,
 			Manufacturer: "VW",
